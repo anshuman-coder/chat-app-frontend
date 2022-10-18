@@ -1,7 +1,7 @@
 import React, { useReducer } from 'react';
 import { Link } from 'react-router-dom';
 import styled from "styled-components";
-import { formReducer } from '../Utils/form';
+import { formReducer, handleValidation } from '../Utils/form';
 
 import Logo from "../assets/logo.svg"
 
@@ -10,7 +10,14 @@ function Register() {
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
-    console.log(state);
+    // console.log(state);
+    handleValidation(state, "register")
+      .then(res => { 
+        console.log(res);
+      })
+      .catch(err => { 
+        alert(err);
+      })
   }
 
   const handleFormChange = (e) => { 

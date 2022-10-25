@@ -1,25 +1,36 @@
 import React, { useReducer } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from "styled-components";
 import { formReducer, handleValidation } from '../Utils/form';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import Logo from "../assets/logo.svg"
+import { register } from '../Utils/apiRequests';
 
 function Register() {
   const [state, dispatch] = useReducer(formReducer, {});
+  const navigate = useNavigate();
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
     // console.log(state);
     handleValidation(state, "register")
       .then(res => {
-        console.log(res);
-        alert(res);
+        // console.log(res);
+
+        register(state)
+          .then(res => {
+            toast.success(`Welcome ${res.data.userName}!`);
+            localStorage.setItem("chatAppAuth", res.data);
+            navigate("/login");
+          })
+          .catch(err => {
+            toast.error(err)
+          });
       })
       .catch(err => {
-        console.log(err);
+        // console.log(err);
         toast.error(err, {
           position: "top-right",
           autoClose: 4000,

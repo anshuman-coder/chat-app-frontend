@@ -20,11 +20,12 @@ export function formReducer(state, action) {
 export const handleValidation = async (formData, type) => {
   return await new Promise(function (resolve, reject) {
     if (type === "register") {
-      if (!formData.userName || formData.userName.length === 0) return reject("Please enter userName!");
+      if (!formData.userName || formData.userName.length === 0) return reject("Please enter Username!");
+      if (formData.userName.length < 3) return reject("Username should be greater than 3 characters!");
       if (!formData.email || formData.email.length === 0) return reject("Please enter Email!");
       if (!formData.password || formData.password.length === 0) return reject("Please enter password!");
       if (!formData.confirmPassword || formData.confirmPassword.length === 0) return reject("Please enter password again!");
-      if (formData.password !== formData.confirmPassword) return reject("password doesn't match!");
+      if (formData.password !== formData.confirmPassword) return reject("password and confirm password doesn't match!");
     } 
     if (type === "login") { 
       if (!formData.email || formData.email.length === 0) return reject("Please enter email!");

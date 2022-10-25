@@ -2,6 +2,8 @@ import React, { useReducer } from 'react';
 import { Link } from 'react-router-dom';
 import styled from "styled-components";
 import { formReducer, handleValidation } from '../Utils/form';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import Logo from "../assets/logo.svg"
 
@@ -12,13 +14,21 @@ function Register() {
     event.preventDefault();
     // console.log(state);
     handleValidation(state, "register")
-      .then(res => { 
+      .then(res => {
         console.log(res);
+        alert(res);
       })
-      .catch(err => { 
-        alert(err);
+      .catch(err => {
+        console.log(err);
+        toast.error(err, {
+          position: "top-right",
+          autoClose: 4000,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "dark",
+        });
       })
-  }
+  };
 
   const handleFormChange = (e) => { 
     dispatch({ type: e.target.id, value: e.target.value });
@@ -70,6 +80,7 @@ function Register() {
           </span>
         </form>
       </FormContainer>
+      <ToastContainer />
     </>
   )
 };

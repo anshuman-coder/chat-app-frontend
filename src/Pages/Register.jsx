@@ -21,7 +21,13 @@ function Register() {
 
         register(state)
           .then(res => {
-            toast.success(`Welcome ${res.data.userName}!`);
+            toast.success(`Welcome ${res.data.userName}!`, {
+              position: "top-right",
+              autoClose: 4000,
+              pauseOnHover: true,
+              draggable: true,
+              theme: "dark"
+            });
             localStorage.setItem("chatAppAuth", res.data);
             navigate("/login");
           })

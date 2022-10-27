@@ -1,8 +1,10 @@
 import axios from "axios";
 
-const instance = axios.create({
+export const publicInstance = axios.create({
+  baseURL: "http://localhost:8080/"
+});
+
+export const privateInstance = axios.create({
   baseURL: "http://localhost:8080/",
   headers: { Authorization: `Bearer token` }
 });
-
-export default instance;

@@ -1,4 +1,4 @@
-import instance from "../api/apiConfig"
+import { publicInstance } from "../api/apiConfig"
 
 export const register = (data) => { 
   return new Promise(function (resolve, reject) { 
@@ -8,7 +8,7 @@ export const register = (data) => {
       password: data.password
     };
 
-    instance.post("/public/register", reqObj)
+    publicInstance.post("/public/register", reqObj)
       .then(res => {
         return resolve(res.data);
       })

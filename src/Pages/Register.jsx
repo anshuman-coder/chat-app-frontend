@@ -22,7 +22,7 @@ function Register() {
         register(state)
           .then(res => {
             localStorage.setItem("chatAppAuth", JSON.stringify(res.data));
-            navigate("/chat");
+            navigate("/");
           })
           .catch(err => {
             toast.error(err);

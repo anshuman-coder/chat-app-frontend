@@ -4,12 +4,15 @@ import styled from "styled-components";
 import { formReducer, handleValidation } from '../Utils/form';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useDispatch } from "react-redux";
 
 import Logo from "../assets/logo.svg"
 import { register } from '../Utils/apiRequests';
+import { setUser } from '../redux/actions/authActions';
 
 function Register() {
   const [state, dispatch] = useReducer(formReducer, {});
+  const reduxDispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleFormSubmit = (event) => {
@@ -21,7 +24,8 @@ function Register() {
 
         register(state)
           .then(res => {
-            localStorage.setItem("chatAppAuth", JSON.stringify(res.data));
+            reduxDispatch(setUser(res.data));
+            localStorage.setItem(process.env.REACT_APP_LOCAL_KEY, JSON.stringify(res.data));
             navigate("/");
           })
           .catch(err => {
@@ -75,6 +79,7 @@ function Register() {
             placeholder='Password'
             onChange={handleFormChange}
             value={state?.password || ""}
+            autoComplete="true"
           />
           <input
             id='confirmPassword'
@@ -83,6 +88,7 @@ function Register() {
             placeholder='Confirm Password'
             onChange={handleFormChange}
             value={state?.confirmPassword || ""}
+            autoComplete="true"
           />
           <button type='submit' onSubmit={handleFormSubmit}>Register</button>
           <span>

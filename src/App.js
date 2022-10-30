@@ -3,15 +3,18 @@ import React, { useEffect } from "react";
 
 import {  Route, Routes, useNavigate } from "react-router-dom";
 import { Register, Login, Chat } from "./Pages";
+import { getLocalData } from "./Utils/local.func";
 // import './App.css';
 
 function App() {
-  const navigate = useNavigate();
 
+  const navigate = useNavigate()
   useEffect(() => {
     // console.log(window.location.pathname);
-    if (window.location.pathname === "/") {
-      navigate("/login");
+    if (window.location.pathname === "/") { 
+      const isLocalValue = getLocalData();
+      // console.log(isLocalValue)
+      if(!isLocalValue) return navigate("/login")
     }
   });
 

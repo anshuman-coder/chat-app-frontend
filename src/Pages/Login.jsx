@@ -1,10 +1,13 @@
 import React, { useReducer } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components'
 import Logo from '../assets/logo.svg';
 import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import { formReducer, handleValidation } from '../Utils/form';
+import { useDispatch } from 'react-redux';
+import { login } from '../Utils/apiRequests';
+import { setUser } from '../redux/actions/authActions';
 
 const toastOptions = {
   position: "top-right",
@@ -17,12 +20,30 @@ const toastOptions = {
 
 function Login() {
   const [state, dispatch] = useReducer(formReducer, {});
+  const reduxDispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
     handleValidation(state, "login")
-      .then(res => {
-        console.log(res)
+      .then(() => {
+        login(state)
+          .then((response) => { 
+            if (response.data === "unmatchedPassword") return toast.error("Incorrect email or password!", toastOptions);
+            if (response.data === "noUser") return toast.error("User doesn't exist!", toastOptions);
+              
+            reduxDispatch(setUser(response.data));
+
+            localStorage.setItem(process.env.REACT_APP_LOCAL_KEY, JSON.stringify(response.data));
+            if (response.data.profileImage === null) return navigate("/");
+
+            return navigate("/setAvatar");
+
+
+          })
+          .catch(error => { 
+            console.log(error);
+          })
       })
       .catch(err => {
         toast.error(err, toastOptions)

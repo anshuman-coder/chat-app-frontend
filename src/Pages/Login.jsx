@@ -35,11 +35,9 @@ function Login() {
             reduxDispatch(setUser(response.data));
 
             localStorage.setItem(process.env.REACT_APP_LOCAL_KEY, JSON.stringify(response.data));
-            if (response.data.profileImage === null) return navigate("/");
+            if (response.data.profileImage !== null) return navigate("/");
 
             return navigate("/setAvatar");
-
-
           })
           .catch(error => { 
             console.log(error);

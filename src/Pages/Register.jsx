@@ -26,7 +26,7 @@ function Register() {
           .then(res => {
             reduxDispatch(setUser(res.data));
             localStorage.setItem(process.env.REACT_APP_LOCAL_KEY, JSON.stringify(res.data));
-            navigate("/");
+            navigate("/setAvatar");
           })
           .catch(err => {
             toast.error(err);

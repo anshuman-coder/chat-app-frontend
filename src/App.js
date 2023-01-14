@@ -2,7 +2,7 @@
 import React, { useEffect } from "react";
 
 import {  Route, Routes, useNavigate } from "react-router-dom";
-import { Register, Login, Chat, SetAvatar } from "./Pages";
+import { Register, Login, Chat } from "./Pages";
 import { getLocalData } from "./Utils/local.func";
 // import './App.css';
 
@@ -15,7 +15,7 @@ function App() {
       const isLocalValue = getLocalData();
       // console.log(isLocalValue)
       if (!isLocalValue) return navigate("/login")
-      if (isLocalValue.profileImage === null) return navigate("/setAvatar");
+      // if (isLocalValue.profileImage === null) return navigate("/setAvatar");
 
       return navigate("/");
     }
@@ -28,7 +28,7 @@ function App() {
         
         <Route path="/login" element={<Login />} />
 
-        <Route path="/setAvatar" element={<SetAvatar />} />
+        {/* <Route path="/setAvatar" element={<SetAvatar />} /> */}
         
         <Route path="/" element={<Chat />} />
         
